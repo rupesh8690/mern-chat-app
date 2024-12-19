@@ -8,12 +8,8 @@ export const getUserForSidebar= async (req,res) =>{
         //above loggedInUserId beacuse a user should not display
         //itself in sidebar as login
         //select -passwords will all not bring the password from collection
-
-        
-
+          
         res.status(200).json(filteredUsers);
-
-
 
     }catch(err){
         console.log("Error in getUserForSidebar",err.message);
