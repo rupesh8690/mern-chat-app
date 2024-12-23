@@ -1,5 +1,6 @@
 import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.model.js";
+import { io,getReceiverSocketId } from "../socket/socket.js";
 
 export const sendMessage = async (req, res) => {
   try {
@@ -36,7 +37,7 @@ export const sendMessage = async (req, res) => {
       // After saving the new message, push its _id to the conversation's messages array
       conversation.messages.push(newMessage._id); // Use the `conversation` object here, not the `Conversation` model
     }
-    //socket io functionality will go here
+ 
 
     // await newMessage.save();
     // await conversation.save();
@@ -45,6 +46,13 @@ export const sendMessage = async (req, res) => {
     // Both operations are independent, so they can be run in parallel to improve performance.
     // This ensures both the conversation and the new message are saved at the same time.
     await Promise.all([conversation.save(), newMessage.save()]);
+
+       //socket io functionality will go here
+       const receiverSocketId= getReceiverSocketId(receiverId);
+       if(receiverId){
+        //io.to(<Socket_id>).emit() used to send events to specific client
+        io.to(receiverSocketId).emit("newMessage",newMessage)
+       }
 
     // Send the newly created message as a response with status code 201 (Created)
     res.status(201).json(newMessage);

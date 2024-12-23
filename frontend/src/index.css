@@ -29,3 +29,28 @@ body{
   background: #222; /* Dark track color */
   border-radius: 5px;
 }
+
+
+/* shake animaiton of incoming messages */
+/* Shake Animation (Horizontal) */
+@keyframes shake-horizontal {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px); /* Move left */
+  }
+  50% {
+    transform: translateX(10px);  /* Move right */
+  }
+  75% {
+    transform: translateX(-10px); /* Move left again */
+  }
+  100% {
+    transform: translateX(0);     /* Return to the original position */
+  }
+}
+
+.shake {
+  animation: shake-horizontal 0.5s ease-in-out; /* Duration and easing function */
+}
